@@ -24,29 +24,28 @@ textElements.forEach((element, index) => {
 const dialog = document.querySelector('#stories');
 const stories = Array.from(dialog.querySelectorAll('.story'));
 const arrows = Array.from(dialog.querySelectorAll('[data-story-step]'));
+const launchers = Array.from(document.querySelectorAll('[data-open-story]'));
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let currentStory = 0;
 let opener;
 
-function animateStoryLauncher(button) {
-  const colors = button.dataset.ringColors.split(' ');
+function createRingAnimation(host, colors) {
   const svgNamespace = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(svgNamespace, 'svg');
   svg.setAttribute('viewBox', '-1 -1 2 2');
   svg.setAttribute('aria-hidden', 'true');
-  svg.classList.add('story-launcher-rings');
+  svg.classList.add('story-rings');
 
   const background = document.createElementNS(svgNamespace, 'circle');
   background.setAttribute('r', '1');
   const rings = Array.from({ length: 4 }, () => document.createElementNS(svgNamespace, 'circle'));
   svg.append(background, ...rings);
-  button.append(svg);
+  host.append(svg);
 
   const colorAt = index => colors[(index + colors.length * 2) % colors.length];
   let frame = 0;
   let previousTime;
   let phase = 0.5;
-  let hovered = false;
 
   function draw(time) {
     if (previousTime !== undefined) {
@@ -66,8 +65,7 @@ function animateStoryLauncher(button) {
     frame = requestAnimationFrame(draw);
   }
 
-  function update() {
-    const play = !dialog.open && !reducedMotion.matches && (hovered || button.matches(':focus-visible'));
+  return play => {
     svg.classList.toggle('is-playing', play);
     if (play && !frame) frame = requestAnimationFrame(draw);
     if (!play && frame) {
@@ -75,6 +73,15 @@ function animateStoryLauncher(button) {
       frame = 0;
       previousTime = undefined;
     }
+  };
+}
+
+function animateStoryLauncher(button) {
+  const setPlaying = createRingAnimation(button, button.dataset.ringColors.split(' '));
+  let hovered = false;
+
+  function update() {
+    setPlaying(!dialog.open && !reducedMotion.matches && (hovered || button.matches(':focus-visible')));
   }
 
   button.addEventListener('pointerenter', event => {
@@ -92,6 +99,17 @@ function animateStoryLauncher(button) {
   reducedMotion.addEventListener('change', update);
 }
 
+const storyAnimations = stories.map((story, index) => {
+  const colors = launchers[index].dataset.ringColors.split(' ');
+  return createRingAnimation(story.querySelector('.story-avatar'), colors);
+});
+
+function updateStoryAnimations() {
+  storyAnimations.forEach((setPlaying, index) => {
+    setPlaying(dialog.open && !reducedMotion.matches && currentStory === index);
+  });
+}
+
 function showStory(index) {
   if (index < 0 || index >= stories.length) return;
   const restoreFocus = !dialog.open || stories[currentStory].contains(document.activeElement);
@@ -104,12 +122,13 @@ function showStory(index) {
   arrows[1].disabled = index === stories.length - 1;
 
   if (!dialog.open) dialog.showModal();
+  updateStoryAnimations();
   if (restoreFocus || document.activeElement.disabled) {
     stories[index].querySelector('[data-close-story]').focus({ preventScroll: true });
   }
 }
 
-document.querySelectorAll('[data-open-story]').forEach(button => {
+launchers.forEach(button => {
   button.addEventListener('click', () => {
     opener = button;
     showStory(Number(button.dataset.openStory));
@@ -136,4 +155,8 @@ dialog.addEventListener('click', event => {
   if (event.target === dialog) dialog.close();
 });
 
-dialog.addEventListener('close', () => opener?.focus({ preventScroll: true }));
+dialog.addEventListener('close', () => {
+  updateStoryAnimations();
+  opener?.focus({ preventScroll: true });
+});
+reducedMotion.addEventListener('change', updateStoryAnimations);

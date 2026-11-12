@@ -103,7 +103,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--cyan); outline-
 .story-launchers button + button { margin-left: -2.297px; }
 .story-launchers button:hover, .story-launchers button:focus-visible { z-index: 1; }
 .story-launchers img { position: absolute; top: -2.297px; left: -2.297px; pointer-events: none; }
-.story-launcher-rings {
+.story-rings {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -113,7 +113,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--cyan); outline-
   pointer-events: none;
   transition: opacity 240ms ease-in-out;
 }
-.story-launcher-rings.is-playing { opacity: 1; }
+.story-rings.is-playing { opacity: 1; }
 
 .header-links { display: flex; align-items: center; justify-content: end; gap: 35px; }
 .header-links a { padding-inline: 2px; line-height: 18px; white-space: nowrap; }
@@ -128,14 +128,13 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--cyan); outline-
 .project-row { display: grid; grid-template-columns: minmax(0, 453.324fr) minmax(0, 927.664fr); gap: 20.014px; }
 .project-row--wide-first { grid-template-columns: minmax(0, 927.325fr) minmax(0, 453.648fr); gap: 20.029px; }
 .project { min-width: 0; }
-.project-media { width: 100%; height: auto; object-fit: cover; background: #000; }
-.project-media--image { position: relative; overflow: hidden; }
-.project-media--image > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 320ms ease-out; }
+.project-media { position: relative; width: 100%; overflow: hidden; background: #000; }
+.project-media > :is(img, video) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 320ms ease-out; }
 .project--wide .project-media { aspect-ratio: 927 / 526; }
 .project--narrow .project-media { aspect-ratio: 453 / 526; }
-.project-caption { margin-top: 15.011px; display: grid; gap: 2px; }
+.project-caption { margin-top: 15.011px; display: grid; gap: 5px; line-height: 1; }
 .project-row--wide-first .project-caption { margin-top: 15.021px; }
-.project-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10.007px; line-height: 23px; }
+.project-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10.007px; }
 
 @media (min-width: 651px) {
   .project--narrow .project-media { width: calc(100% * 453 / 453.324); }
@@ -145,12 +144,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--cyan); outline-
   .project-title > [aria-hidden] { min-width: 6px; }
 }
 .project-title span { max-width: 100%; overflow-wrap: anywhere; }
-.project-type { width: fit-content; color: #8c8c8c; line-height: 21px; }
+.project-type { width: fit-content; color: #8c8c8c; }
 .project-row:last-child { padding-bottom: 2px; }
 
 @media (hover: hover) {
-  .project-media--image:hover > img { transform: scale(1.035); }
-  .project-media--image:hover + .project-caption .hover-text { color: var(--project-hover-color, var(--cyan)); }
+  .project-media:hover > :is(img, video) { transform: scale(1.035); }
+  .project-media:hover + .project-caption .hover-text { color: var(--project-hover-color, var(--cyan)); }
 }
 
 .site-footer {
@@ -267,7 +266,7 @@ html:has(.stories[open]) { overflow: hidden; }
 .logo-divider { display: grid; place-items: center; width: calc(3.799 * var(--u)); height: calc(30.357 * var(--u)); }
 .logo-divider img { width: calc(30.357 * var(--u)); height: auto; margin-left: calc(-13.279 * var(--u)); transform: rotate(90deg); }
 
-.about-copy { top: calc(139.575 * var(--u)); left: calc(37.366 * var(--u)); width: calc(417.73 * var(--u)); font-size: calc(14 * var(--u)); }
+.about-copy { top: calc(139.575 * var(--u)); left: calc(37.366 * var(--u)); width: calc(417.73 * var(--u)); }
 .awards { position: absolute; top: calc(313.086 * var(--u)); left: calc(212.726 * var(--u)); width: calc(273.274 * var(--u)); font-size: calc(14 * var(--u)); line-height: 1.05; }
 .awards h2 { line-height: calc(15 * var(--u)); }
 .awards ul { position: relative; margin-top: calc(13.65 * var(--u)); list-style: none; padding: 0; }
@@ -286,12 +285,23 @@ html:has(.stories[open]) { overflow: hidden; }
 .contact-links .pill:is(:hover, :focus-visible) { background-color: var(--hover-color, var(--cyan)); color: var(--hover-ink, #000); }
 .contact-links .pill + .pill { margin-top: calc(-13.009 * var(--u)); }
 
+@container (max-width: 500px) {
+  .about-copy br { display: none; }
+}
+
 @container (max-width: 470px) {
   .story--work { overflow-y: auto; overscroll-behavior: contain; }
   .story--work { padding: max(86px, calc(316.885 * var(--u))) calc(38 * var(--u)) calc(38 * var(--u)); }
   .work-copy, .clients-title, .client-logos { position: static; width: auto; }
   .clients-title { margin-top: 20px; }
   .client-logos { justify-content: center; margin-top: 8px; }
+}
+
+@container (max-width: 420px) {
+  .story--about { overflow-y: auto; overscroll-behavior: contain; padding: calc(139.575 * var(--u)) calc(38 * var(--u)) calc(38 * var(--u)); }
+  .about-copy { position: static; }
+  .awards { position: relative; top: auto; left: auto; height: calc(100.204 * var(--u)); margin: 20px 0 20px auto; }
+  .about-portrait { position: static; width: 100%; height: auto; aspect-ratio: 1; }
 }
 
 @media (max-width: 950px) {
@@ -309,8 +319,6 @@ html:has(.stories[open]) { overflow: hidden; }
   .header-links { gap: 10px; }
   .project-row, .project-row--wide-first { grid-template-columns: 1fr; gap: 20px; }
   .project-caption, .project-row--wide-first .project-caption { margin-top: 10px; }
-  .project-title { line-height: 21px; }
-  .project-type { line-height: 19px; }
   .site-footer { min-height: 120px; }
   .footer-links { margin-top: 9px; }
   .footer-links .pill { height: 34px; border-width: 3px; }
@@ -323,7 +331,7 @@ html:has(.stories[open]) { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .story-launcher-rings { display: none; }
-  .project-media--image:hover > img { transform: none; }
+  .story-rings { display: none; }
+  .project-media:hover > :is(img, video) { transform: none; }
   .hover-text, .wordmark::after, .contact-links .pill, .footer-links .pill { transition: none; }
 }
