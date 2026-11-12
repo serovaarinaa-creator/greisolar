@@ -29,7 +29,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let currentStory = 0;
 let opener;
 
-function createRingAnimation(host, colors) {
+function createRingAnimation(host, colors, intervalMs = 390) {
   const svgNamespace = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(svgNamespace, 'svg');
   svg.setAttribute('viewBox', '-1 -1 2 2');
@@ -49,7 +49,7 @@ function createRingAnimation(host, colors) {
 
   function draw(time) {
     if (previousTime !== undefined) {
-      phase = (phase + (time - previousTime) / 390) % colors.length;
+      phase = (phase + (time - previousTime) / intervalMs) % colors.length;
     }
     previousTime = time;
 
@@ -101,7 +101,7 @@ function animateStoryLauncher(button) {
 
 const storyAnimations = stories.map((story, index) => {
   const colors = launchers[index].dataset.ringColors.split(' ');
-  return createRingAnimation(story.querySelector('.story-avatar'), colors);
+  return createRingAnimation(story.querySelector('.story-avatar'), colors, 780);
 });
 
 function updateStoryAnimations() {
