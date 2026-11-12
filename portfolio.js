@@ -57,8 +57,6 @@ function animateStoryLauncher(button) {
     rings.forEach((ring, index) => {
       const age = rings.length - 1 - index;
       const radius = (age + progress) / rings.length;
-      // Each circle stays tangent to the same point as it grows.
-      ring.setAttribute('cy', 1 - radius);
       ring.setAttribute('r', radius);
       ring.setAttribute('fill', colorAt(newest - age));
     });
