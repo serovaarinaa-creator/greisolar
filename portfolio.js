@@ -8,7 +8,11 @@ for (let index = colors.length - 1; index > 0; index--) {
 }
 
 textElements.forEach((element, index) => {
-  element.style.setProperty('--hover-color', `var(--${colors[index]})`);
+  const color = colors[index];
+  element.style.setProperty('--hover-color', `var(--${color})`);
+  if (color === 'brown' && element.matches('.contact-links .pill')) {
+    element.style.setProperty('--hover-ink', '#fff');
+  }
 });
 
 const dialog = document.querySelector('#stories');
