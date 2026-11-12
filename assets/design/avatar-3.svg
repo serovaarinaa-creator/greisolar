@@ -1,19 +1,5 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="45.9199" height="45.9199" viewBox="0 0 45.9199 45.9199" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Frame 2131333201">
-<g clip-path="url(#clip0_0_4)">
-<rect width="45.9199" height="45.9199" rx="22.96" fill="#37C0E7"/>
-<circle id="Ellipse 4" cx="22.96" cy="22.9599" r="18.5219" fill="#A04D21"/>
-<circle id="Ellipse 6" cx="22.9599" cy="22.9599" r="5.59343" fill="#FFEE00"/>
-<g id="Frame 2131333202">
-<rect x="6.10352e-05" width="45.9199" height="45.9199" rx="22.96" fill="#FF0F04"/>
-<circle id="Ellipse 4_2" cx="22.9601" cy="22.96" r="18.5219" fill="#FF8DEF"/>
-<circle id="Ellipse 5" cx="22.96" cy="22.9599" r="7.87504" fill="#00FF48"/>
-</g>
-</g>
-</g>
-<defs>
-<clipPath id="clip0_0_4">
-<rect width="45.9199" height="45.9199" rx="22.96" fill="white"/>
-</clipPath>
-</defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="45.9199" height="45.9199" viewBox="0 0 45.9199 45.9199">
+  <circle cx="22.95995" cy="22.95995" r="22.95995" fill="#FF0F04"/>
+  <circle cx="22.95995" cy="22.95995" r="18.5219" fill="#FF8DEF"/>
+  <circle cx="22.95995" cy="22.95995" r="7.87504" fill="#00FF48"/>
 </svg>

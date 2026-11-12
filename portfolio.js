@@ -7,8 +7,11 @@ for (let index = colors.length - 1; index > 0; index--) {
   [colors[index], colors[swap]] = [colors[swap], colors[index]];
 }
 
+const footerColors = [...new Set(colors)].filter(color => color !== 'yellow' && color !== 'brown');
+let footerIndex = 0;
+
 textElements.forEach((element, index) => {
-  const color = colors[index];
+  const color = element.matches('.footer-links .pill') ? footerColors[footerIndex++] : colors[index];
   element.style.setProperty('--hover-color', `var(--${color})`);
   if (color === 'brown' && element.matches('.contact-links .pill')) {
     element.style.setProperty('--hover-ink', '#fff');
