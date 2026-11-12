@@ -13,6 +13,9 @@ let footerIndex = 0;
 textElements.forEach((element, index) => {
   const color = element.matches('.footer-links .pill') ? footerColors[footerIndex++] : colors[index];
   element.style.setProperty('--hover-color', `var(--${color})`);
+  if (element.matches('.project-title > :last-child')) {
+    element.closest('.project').style.setProperty('--project-hover-color', `var(--${color})`);
+  }
   if (color === 'brown' && element.matches('.contact-links .pill')) {
     element.style.setProperty('--hover-ink', '#fff');
   }
